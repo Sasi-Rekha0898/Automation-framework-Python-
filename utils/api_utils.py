@@ -2,9 +2,9 @@ import requests
 from config.config_api import TOKEN, BASE_URL
 
 HEADERS = {
-    "Authorization": TOKEN
+    "Authorization": f"Bearer {TOKEN}",
+    "Content-Type": "application/json"
 }
-
 def create_user(payload):
     return requests.post(
         BASE_URL + "/public/v2/users",
