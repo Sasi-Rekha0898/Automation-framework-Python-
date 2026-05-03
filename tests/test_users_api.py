@@ -1,16 +1,13 @@
 import json
-import requests
+
 import pytest
 from faker import Faker
+from utils.api_utils import create_user, update_user, delete_user, get_users
+
 fake = Faker()
-base_url = "https://gorest.co.in"
 
-
-@pytest.fixture()
-def create_user():
-    headers = {"Authorization": "Bearer 2cb4d5e41a2c2d75e06cb4dff67ddc1a7eb962c3e2b1498c0f3f563d7338007d"}
-    url = base_url + "/public/v2/users"
-
+@pytest.fixture(scope="module")
+def create_user_fixture():
     payload = {
         "name": "Uttam",
         "email": fake.email(),
@@ -18,70 +15,58 @@ def create_user():
         "status": "inactive"
     }
 
-    response = requests.post(url, headers=headers, json=payload)
+    response = create_user(payload)
 
     assert response.status_code == 201
 
-    user_id = response.json()["id"]
-    return user_id
+    user = response.json()
 
+    print("\nPOST RESPONSE:")
+    print(json.dumps(user, indent=4))
 
-# ----------------- GET API -----------------
+    return user
+
 def test_get_api():
-    headers = {"Authorization": "Bearer 2cb4d5e41a2c2d75e06cb4dff67ddc1a7eb962c3e2b1498c0f3f563d7338007d"}
-    url = base_url + "/public/v2/users"
 
-    response = requests.get(url, headers=headers)
+    response = get_users()
+
+    print("\nGET API SAMPLE (first 3 users):")
+    print(json.dumps(response.json()[:3], indent=4))
 
     assert response.status_code == 200
-    print(json.dumps(response.json(), indent=4))
+    print("=================================================")
 
 
-# ----------------- POST API -----------------
-def test_post_api():
-    headers = {"Authorization": "Bearer 2cb4d5e41a2c2d75e06cb4dff67ddc1a7eb962c3e2b1498c0f3f563d7338007d"}
-    url = base_url + "/public/v2/users"
+def test_put_api(create_user_fixture):
 
-    payload = {
-        "name": "Uttam",
-        "email": fake.email(),
-        "gender": "male",
-        "status": "inactive"
-    }
-
-    response = requests.post(url, headers=headers, json=payload)
-
-    assert response.status_code == 201
-    print(json.dumps(response.json(), indent=4))
-
-
-# ----------------- PUT API -----------------
-def test_put_api(create_user):
-    user_id = create_user
-
-    headers = {"Authorization": "Bearer 2cb4d5e41a2c2d75e06cb4dff67ddc1a7eb962c3e2b1498c0f3f563d7338007d"}
-    url = base_url + f"/public/v2/users/{user_id}"
+    user_id = create_user_fixture["id"]
 
     payload = {
         "name": "Uttam Updated",
         "email": fake.email(),
-        "gender": "female",
+        "gender": "male",
         "status": "active"
     }
 
-    response = requests.put(url, headers=headers, json=payload)
+    response = update_user(user_id, payload)
 
-    assert response.status_code == 200
+    print("\nPUT RESPONSE:")
     print(json.dumps(response.json(), indent=4))
 
+    assert response.status_code == 200
+    assert response.json()["id"] == user_id
+    print("=================================================")
 
-# ----------------- DELETE API -----------------
-def test_delete_api(create_user):
-    user_id = create_user
 
-    headers = {"Authorization": "Bearer 2cb4d5e41a2c2d75e06cb4dff67ddc1a7eb962c3e2b1498c0f3f563d7338007d"}
-    url = base_url + f"/public/v2/users/{user_id}"
 
-    response = requests.delete(url, headers=headers)
+def test_delete_api(create_user_fixture):
+
+    user_id = create_user_fixture["id"]
+
+    response = delete_user(user_id)
+
+    print("\nDELETE RESPONSE:")
+    print("Status Code:", response.status_code)
 
     assert response.status_code == 204
+    print("=================================================")
