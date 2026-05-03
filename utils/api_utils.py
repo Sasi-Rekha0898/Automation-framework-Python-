@@ -12,11 +12,12 @@ def create_user(payload):
         json=payload
     )
 
+
 def get_users():
-    return requests.get(
-        BASE_URL + "/public/v2/users",
-        headers=HEADERS
-    )
+        response = requests.get(BASE_URL + "/public/v2/users", headers=HEADERS)
+        print("STATUS:", response.status_code)
+        print("RESPONSE:", response.text[:200])
+        return response
 
 def delete_user(user_id):
     return requests.delete(
