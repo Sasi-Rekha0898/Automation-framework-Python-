@@ -1,17 +1,21 @@
 import pytest
 import allure
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from pages.login_page import LoginPage
 from config.config import Config
 from utils.driver_factory import Utils
 
-
+options = Options()
+options.add_argument("--headless=new")
+options.add_argument("--no-sandbox")
+options.add_argument("--disable-dev-shm-usage")
 @pytest.fixture
 def setup():
     browser = Config.Browser
     if browser == "Chrome":
-        driver = webdriver.Chrome()
+        driver = webdriver.Chrome(options=options)
     driver.implicitly_wait(Config.wait_implicit)
     driver.get(Config.Base_url)
     yield driver

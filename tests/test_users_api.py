@@ -4,11 +4,11 @@ import pytest
 from faker import Faker
 fake = Faker()
 base_url = "https://gorest.co.in"
-auth = "Bearer 2cb4d5e41a2c2d75e06cb4dff67ddc1a7eb962c3e2b1498c0f3f563d7338007d"
+
 
 @pytest.fixture()
 def create_user():
-    headers = {"Authorization": auth}
+    headers = {"Authorization": "Bearer 2cb4d5e41a2c2d75e06cb4dff67ddc1a7eb962c3e2b1498c0f3f563d7338007d"}
     url = base_url + "/public/v2/users"
 
     payload = {
@@ -28,7 +28,7 @@ def create_user():
 
 # ----------------- GET API -----------------
 def test_get_api():
-    headers = {"Authorization": auth}
+    headers = {"Authorization": "Bearer 2cb4d5e41a2c2d75e06cb4dff67ddc1a7eb962c3e2b1498c0f3f563d7338007d"}
     url = base_url + "/public/v2/users"
 
     response = requests.get(url, headers=headers)
@@ -39,7 +39,7 @@ def test_get_api():
 
 # ----------------- POST API -----------------
 def test_post_api():
-    headers = {"Authorization": auth}
+    headers = {"Authorization": "Bearer 2cb4d5e41a2c2d75e06cb4dff67ddc1a7eb962c3e2b1498c0f3f563d7338007d"}
     url = base_url + "/public/v2/users"
 
     payload = {
@@ -59,7 +59,7 @@ def test_post_api():
 def test_put_api(create_user):
     user_id = create_user
 
-    headers = {"Authorization": auth}
+    headers = {"Authorization": "Bearer 2cb4d5e41a2c2d75e06cb4dff67ddc1a7eb962c3e2b1498c0f3f563d7338007d"}
     url = base_url + f"/public/v2/users/{user_id}"
 
     payload = {
@@ -79,7 +79,7 @@ def test_put_api(create_user):
 def test_delete_api(create_user):
     user_id = create_user
 
-    headers = {"Authorization": auth}
+    headers = {"Authorization": "Bearer 2cb4d5e41a2c2d75e06cb4dff67ddc1a7eb962c3e2b1498c0f3f563d7338007d"}
     url = base_url + f"/public/v2/users/{user_id}"
 
     response = requests.delete(url, headers=headers)
