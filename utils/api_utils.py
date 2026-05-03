@@ -3,7 +3,8 @@ from config.config_api import TOKEN, BASE_URL
 
 HEADERS = {
     "Authorization": f"Bearer {TOKEN}",
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
+    "User-Agent": "Mozilla/5.0"
 }
 def create_user(payload):
     return requests.post(
