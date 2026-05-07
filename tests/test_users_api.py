@@ -8,6 +8,7 @@ fake = Faker()
 
 @pytest.fixture(scope="module")
 def create_user_fixture():
+
     payload = {
         "name": "Uttam",
         "email": fake.email(),
@@ -26,6 +27,7 @@ def create_user_fixture():
 
     return user
 
+@pytest.mark.api
 def test_get_api():
 
     response = get_users()
@@ -66,7 +68,7 @@ def test_delete_api(create_user_fixture):
     response = delete_user(user_id)
 
     print("\nDELETE RESPONSE:")
-    print("Status Code:", response.status_code)
+    print("API DELETED")
 
     assert response.status_code == 204
     print("=================================================")

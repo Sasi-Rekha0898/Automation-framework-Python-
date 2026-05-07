@@ -24,6 +24,7 @@ def setup():
 @allure.feature("Login Feature")
 @allure.story("Login Validatiom")
 @allure.severity(allure.severity_level.CRITICAL)
+@pytest.mark.ui
 def test_login(setup):
     driver = setup
 

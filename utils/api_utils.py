@@ -1,10 +1,12 @@
 import requests
 from config.config_api import TOKEN, BASE_URL
 
+import os
+
 HEADERS = {
     "Authorization": f"Bearer {TOKEN}",
     "Content-Type": "application/json",
-    "User-Agent": "Mozilla/5.0"
+
 }
 def create_user(payload):
     return requests.post(
@@ -15,10 +17,8 @@ def create_user(payload):
 
 
 def get_users():
-        response = requests.get(BASE_URL + "/public/v2/users", headers=HEADERS)
-        print("STATUS:", response.status_code)
-        print("RESPONSE:", response.text[:200])
-        return response
+        return requests.get(
+        BASE_URL + f"/public/v2/users",headers=HEADERS)
 
 def delete_user(user_id):
     return requests.delete(
