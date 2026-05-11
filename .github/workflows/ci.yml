@@ -47,17 +47,9 @@ jobs:
     - name: Install Chrome
       uses: browser-actions/setup-chrome@v1
 
-    # Run API Tests
-    - name: Run API Tests
-      run: pytest -m api -v
-
-    # Run UI Tests
-    - name: Run UI Tests
-      run: pytest -m ui -v
-
-    # Generate Allure Results
-    - name: Generate Allure Results
-      run: pytest --alluredir=allure-results
+    # Run API , UI Tests & GENERATE ALLURE REPORTS
+    - name: Run Tests with Allure
+      run: pytest -m "api or ui" --alluredir=allure-results
 
     # Upload Allure Results
     - name: Upload Allure Results
