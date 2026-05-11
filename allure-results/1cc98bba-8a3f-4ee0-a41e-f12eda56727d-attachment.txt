@@ -1,0 +1,24 @@
+
+POST RESPONSE:
+{
+    "name": "Uttam",
+    "location": "Chennai",
+    "phone": "9876543210",
+    "courses": [
+        "Python",
+        "Selenium"
+    ],
+    "id": "fVwl_6lPmg0"
+}
+
+PUT RESPONSE:
+{
+    "name": "Uttam Updated",
+    "location": "Bangalore",
+    "phone": "9999999999",
+    "courses": [
+        "Playwright"
+    ],
+    "id": "fVwl_6lPmg0"
+}
+=================================================
