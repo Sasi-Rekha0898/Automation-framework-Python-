@@ -11,9 +11,9 @@ def create_user_fixture():
 
     payload = {
         "name": "Uttam",
-        "email": fake.email(),
-        "gender": "male",
-        "status": "inactive"
+        "location": "Chennai",
+        "phone": "9876543210",
+        "courses": ["Python", "Selenium"]
     }
 
     response = create_user(payload)
@@ -45,9 +45,9 @@ def test_put_api(create_user_fixture):
 
     payload = {
         "name": "Uttam Updated",
-        "email": fake.email(),
-        "gender": "male",
-        "status": "active"
+        "location": "Bangalore",
+        "phone": "9999999999",
+        "courses": ["Playwright"]
     }
 
     response = update_user(user_id, payload)
@@ -70,5 +70,5 @@ def test_delete_api(create_user_fixture):
     print("\nDELETE RESPONSE:")
     print("API DELETED")
 
-    assert response.status_code == 204
+    assert response.status_code == 200
     print("=================================================")

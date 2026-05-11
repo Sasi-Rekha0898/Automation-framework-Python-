@@ -1,4 +1,3 @@
 import os
 
-TOKEN = os.getenv("TOKEN")
-BASE_URL = os.getenv("BASE_URL", "https://gorest.co.in")
+BASE_URL = os.getenv("BASE_URL", "http://localhost:3000")

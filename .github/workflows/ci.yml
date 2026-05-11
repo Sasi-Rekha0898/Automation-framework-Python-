@@ -9,43 +9,57 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      TOKEN: ${{ secrets.TOKEN }}
-      BASE_URL: https://gorest.co.in
-      CI_TEST: true
+      BASE_URL: http://localhost:3000
 
     steps:
+
     - name: Checkout code
       uses: actions/checkout@v4
 
+    # Install Node.js
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    # Install JSON Server
+    - name: Install JSON Server
+      run: npm install -g json-server
+
+    # Start Mock API
+    - name: Start Mock API
+      run: |
+        json-server students.json --port 3000 &
+        sleep 5
+
+    # Setup Python
     - name: Setup Python
       uses: actions/setup-python@v5
       with:
         python-version: '3.11'
 
+    # Install dependencies
     - name: Install dependencies
       run: |
         pip install -r requirements.txt
 
-    # 🔥 Install Chrome for Selenium
+    # Install Chrome
     - name: Install Chrome
       uses: browser-actions/setup-chrome@v1
 
-    - name: Check Chrome version
-      run: chrome --version
-
-    # 🔥 Run API tests first (stable)
+    # Run API Tests
     - name: Run API Tests
       run: pytest -m api -v
 
-    # 🔥 Run UI tests (headless)
+    # Run UI Tests
     - name: Run UI Tests
       run: pytest -m ui -v
 
-    # 🔥 Generate Allure results
+    # Generate Allure Results
     - name: Generate Allure Results
       run: pytest --alluredir=allure-results
 
-    # 🔥 Upload Allure results
+    # Upload Allure Results
     - name: Upload Allure Results
       uses: actions/upload-artifact@v4
       with:
